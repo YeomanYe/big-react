@@ -88,6 +88,7 @@ const commitMutationEffectsOnFiber = (
 		commitPassiveEffect(finishedWork, root, 'update');
 		finishedWork.flags &= ~PassiveEffect;
 	}
+	// QUESTION 卸载时，怎么设置的标记
 	if ((flags & Ref) !== NoFlags && tag === HostComponent) {
 		safelyDetachRef(finishedWork);
 	}
@@ -168,6 +169,7 @@ function gethostSibling(fiber: FiberNode) {
 		node = node.sibling;
 
 		while (node.tag !== HostText && node.tag !== HostComponent) {
+			// QUESTION 什么叫做不稳定不能用？
 			// 找到一个非Host fiber，向下找，直到找到第一个Host子孙
 			if ((node.flags & Placement) !== NoFlags) {
 				// 这个fiber不稳定，不能用

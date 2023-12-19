@@ -50,6 +50,7 @@ export const completeWork = (wip: FiberNode) => {
 				appendAllChildren(instance, wip);
 				wip.stateNode = instance;
 				// 标记Ref
+				// QUESTION 挂载阶段，什么情况下这里会不为空？
 				if (wip.ref !== null) {
 					markRef(wip);
 				}
