@@ -61,6 +61,7 @@ export const processUpdateQueue = <State>(
 	baseState: State;
 	baseQueue: Update<State> | null;
 } => {
+	// QUESTION baseState和baseQueue是做什么的
 	const result: ReturnType<typeof processUpdateQueue<State>> = {
 		memoizedState: baseState,
 		baseState,

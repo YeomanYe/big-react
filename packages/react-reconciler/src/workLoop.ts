@@ -78,6 +78,7 @@ function ensureRootIsScheduled(root: FiberRootNode) {
 		return;
 	}
 
+	// QUESTION 从哪进入导致的取消
 	if (existingCallback !== null) {
 		unstable_cancelCallback(existingCallback);
 	}
@@ -121,14 +122,16 @@ function markUpdateFromFiberToRoot(fiber: FiberNode) {
 	}
 	return null;
 }
-
+// QUESTION 这个didTimeout怎么来的
 function performConcurrentWorkOnRoot(
 	root: FiberRootNode,
 	didTimeout: boolean
 ): any {
+	// QUESTION 这个callbackNode是什么东西
 	// 保证useEffect回调执行
 	const curCallback = root.callbackNode;
 	const didFlushPassiveEffect = flushPassiveEffects(root.pendingPassiveEffects);
+	// QUESTION 此处是永真情况吗，什么意义？
 	if (didFlushPassiveEffect) {
 		if (root.callbackNode !== curCallback) {
 			return null;
@@ -147,6 +150,7 @@ function performConcurrentWorkOnRoot(
 	ensureRootIsScheduled(root);
 
 	if (exitStatus === RootInComplete) {
+		// QUESTION 判 下次调用是使用更高优的work重新进入该函数？
 		// 中断
 		if (root.callbackNode !== curCallbackNode) {
 			return null;
@@ -283,6 +287,7 @@ function commitRoot(root: FiberRootNode) {
 }
 
 function flushPassiveEffects(pendingPassiveEffects: PendingPassiveEffects) {
+	// QUESTION 这个标志位的意义是什么
 	let didFlushPassiveEffect = false;
 	pendingPassiveEffects.unmount.forEach((effect) => {
 		didFlushPassiveEffect = true;
@@ -309,6 +314,7 @@ function workLoopSync() {
 	}
 }
 function workLoopConcurrent() {
+	// QUESTION 并发单元是beginWork、completeWork？
 	while (workInProgress !== null && !unstable_shouldYield()) {
 		performUnitOfWork(workInProgress);
 	}
