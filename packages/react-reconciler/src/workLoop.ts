@@ -78,7 +78,7 @@ function ensureRootIsScheduled(root: FiberRootNode) {
 		return;
 	}
 
-	// QUESTION 从哪进入导致的取消
+	// ANSWER 从哪进入导致的取消？中断的场景，可以是延时请求的渲染，交互导致的中断，可以是effect中的setState逻辑
 	if (existingCallback !== null) {
 		unstable_cancelCallback(existingCallback);
 	}
@@ -122,16 +122,16 @@ function markUpdateFromFiberToRoot(fiber: FiberNode) {
 	}
 	return null;
 }
-// QUESTION 这个didTimeout怎么来的
+// ANSWER 这个didTimeout怎么来的？scheduler库回调的时候给出的
 function performConcurrentWorkOnRoot(
 	root: FiberRootNode,
 	didTimeout: boolean
 ): any {
-	// QUESTION 这个callbackNode是什么东西
+	// ANSWER 这个callbackNode是什么东西？可以认为就是分片单元
 	// 保证useEffect回调执行
 	const curCallback = root.callbackNode;
 	const didFlushPassiveEffect = flushPassiveEffects(root.pendingPassiveEffects);
-	// QUESTION 此处是永真情况吗，什么意义？
+	// ANSWER 此处是永真情况吗，什么意义？ 用于判断effect是否产生了更高优先级的任务，有则退出本次的处理
 	if (didFlushPassiveEffect) {
 		if (root.callbackNode !== curCallback) {
 			return null;
@@ -150,7 +150,7 @@ function performConcurrentWorkOnRoot(
 	ensureRootIsScheduled(root);
 
 	if (exitStatus === RootInComplete) {
-		// QUESTION 判 下次调用是使用更高优的work重新进入该函数？
+		// ANSWER 判 下次调用是使用更高优的work重新进入该函数？ 本次有更高优先级的任务，因此中断
 		// 中断
 		if (root.callbackNode !== curCallbackNode) {
 			return null;
@@ -314,7 +314,7 @@ function workLoopSync() {
 	}
 }
 function workLoopConcurrent() {
-	// QUESTION 并发单元是beginWork、completeWork？
+	// ANSWER 并发单元是beginWork、completeWork？让渡时间片的最小逻辑单元是，深度遍历到最深处的子节点，也就是beginWork -> completeWork一次的逻辑
 	while (workInProgress !== null && !unstable_shouldYield()) {
 		performUnitOfWork(workInProgress);
 	}
