@@ -88,7 +88,7 @@ const commitMutationEffectsOnFiber = (
 		commitPassiveEffect(finishedWork, root, 'update');
 		finishedWork.flags &= ~PassiveEffect;
 	}
-	// QUESTION 卸载时，怎么设置的标记
+	// QUESTION 此处的含义是指每次更新阶段，宿主节点上的ref都要被重新设置吗？
 	if ((flags & Ref) !== NoFlags && tag === HostComponent) {
 		safelyDetachRef(finishedWork);
 	}
