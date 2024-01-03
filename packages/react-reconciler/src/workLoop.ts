@@ -58,6 +58,7 @@ const RootInComplete = 1;
 const RootCompleted = 2;
 // 未完成状态，不用进入commit阶段
 const RootDidNotComplete = 3;
+// QUESTION 局部状态：workInProgressRootExitStatus、workInProgressSuspendedReason、workInProgressThrownValue有什么用
 let workInProgressRootExitStatus: number = RootInProgress;
 
 // Suspense
@@ -249,6 +250,7 @@ function renderRoot(root: FiberRootNode, lane: Lane, shouldTimeSlice: boolean) {
 
 	do {
 		try {
+			// QUESTION 这里是做什么用的？
 			if (
 				workInProgressSuspendedReason !== NotSuspended &&
 				workInProgress !== null
@@ -427,6 +429,7 @@ function throwAndUnwindWorkLoop(
 	thrownValue: any,
 	lane: Lane
 ) {
+	// QUESTION 没理解这句话的含义
 	// unwind前的重置hook，避免 hook0 use hook1 时 use造成中断，再恢复时前后hook对应不上
 	resetHooksOnUnwind(unitOfWork);
 	throwException(root, thrownValue, lane);

@@ -49,6 +49,7 @@ export const beginWork = (wip: FiberNode, renderLane: Lane) => {
 		case SuspenseComponent:
 			return updateSuspenseComponent(wip);
 		case OffscreenComponent:
+			// QUESTION 离屏元素是指suspense包裹的未显示出来的元素吗？
 			return updateOffscreenComponent(wip);
 		default:
 			if (__DEV__) {

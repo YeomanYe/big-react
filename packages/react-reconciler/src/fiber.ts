@@ -77,6 +77,7 @@ export class FiberRootNode {
 	current: FiberNode;
 	finishedWork: FiberNode | null;
 	pendingLanes: Lanes;
+	// QUESTION 这两个车道是什么含义？
 	suspendedLanes: Lanes;
 	pingedLanes: Lanes;
 	finishedLane: Lane;

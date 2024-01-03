@@ -25,6 +25,7 @@ function noop() {}
 
 export function trackUsedThenable<T>(thenable: Thenable<T>) {
 	switch (thenable.status) {
+		// QUESTION 什么叫需要自己定义？
 		// 需要自己定义
 		case 'fulfilled':
 			return thenable.value;

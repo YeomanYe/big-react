@@ -131,6 +131,7 @@ function findHostSubtreeRoot(
 		) {
 			// 隐藏的OffscreenComponent跳过
 		} else if (node.child !== null) {
+			// QUESTION 此处建立关联的意义是什么？
 			node.child.return = node;
 			node = node.child;
 			continue;
@@ -140,6 +141,7 @@ function findHostSubtreeRoot(
 			return;
 		}
 
+		// QUESTION 是否是解决有<Child/><div/> 这种结构的节点？
 		while (node.sibling === null) {
 			if (node.return === null || node.return === finishedWork) {
 				return;

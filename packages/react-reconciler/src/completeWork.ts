@@ -151,6 +151,7 @@ function bubbleProperties(wip: FiberNode) {
 		subtreeFlags |= child.subtreeFlags;
 		subtreeFlags |= child.flags;
 
+		// QUESTION 是否与beginWork中的生成子树重复了，在此建关联是为了sibling吗？
 		child.return = wip;
 		child = child.sibling;
 	}
