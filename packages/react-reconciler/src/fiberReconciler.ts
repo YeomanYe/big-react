@@ -26,6 +26,7 @@ export function updateContainer(
 	element: ReactElementType | null,
 	root: FiberRootNode
 ) {
+	// QUESTION 为什么要加上调度？
 	unstable_runWithPriority(unstable_ImmediatePriority, () => {
 		const hostRootFiber = root.current;
 		const lane = requestUpdateLane();
