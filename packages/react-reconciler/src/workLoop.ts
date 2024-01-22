@@ -67,6 +67,7 @@ type SuspendedReason =
 	| typeof SuspendedOnData
 	| typeof SuspendedOnDeprecatedThrowPromise;
 const NotSuspended = 0;
+// QUESTION 1、2、4分别代表，得到错误结果、得到正确结果、等待中？
 const SuspendedOnError = 1;
 const SuspendedOnData = 2;
 const SuspendedOnDeprecatedThrowPromise = 4;
@@ -428,6 +429,7 @@ function handleThrow(root: FiberRootNode, thrownValue: any): void {
 			typeof thrownValue === 'object' &&
 			typeof thrownValue.then === 'function';
 
+		// QUESTION 以下两个变量的用途是什么
 		workInProgressThrownValue = thrownValue;
 		workInProgressSuspendedReason = isWakeable
 			? SuspendedOnDeprecatedThrowPromise

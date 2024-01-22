@@ -66,6 +66,7 @@ function mountLazyComponent(wip: FiberNode, renderLane: Lane) {
 	const LazyType = wip.type;
 	const payload = LazyType._payload;
 	const init = LazyType._init;
+	// QUESTION 在等待异步响应时，每次运行到此就抛出错误？
 	const Component = init(payload);
 	wip.type = Component;
 	wip.tag = FunctionComponent;
